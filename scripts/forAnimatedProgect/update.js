@@ -36,3 +36,6 @@ function checkNeighboursCount(x, y, data) {
 
   return count;
 }
+
+
+//some changes (_)

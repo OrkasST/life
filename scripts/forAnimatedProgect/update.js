@@ -19,7 +19,7 @@ import { Cell } from "../cells/basicCell.js";
 let born = [];
 let died = [];
 
-export function update(data = null, time = 0) {
+export function update(data = null, timesLeft = 0) {
   born = [];
   died = [];
   for (let x = 0; x < data.length; x++) {
@@ -30,7 +30,8 @@ export function update(data = null, time = 0) {
     }
   }
   for (let i = 0; i < died.length; i += 2) data[died[i]][died[i + 1]] = 0;
-  for (let i = 0; i < born.length; i += 3) data[born[i]][born[i + 1]] = new Cell({ x: born[i], y: born[i + 1], dna: born[i + 2] });
+  for (let i = 0; i < born.length; i += 4) data[born[i]][born[i + 1]] = new Cell({ x: born[i], y: born[i + 1], dna: born[i + 2], color: born[i + 3] });
+  if (timesLeft > 0) update(data, timesLeft - 1);
   return data;
 }
 
@@ -59,22 +60,23 @@ function checkNeighbours(x, y, data) {
 
 function handleCellDecision(cell, data) {
   let action = cell.decide();
-  if (cell._actionCost[action] > cell.energy) return handleCellDecision(cell);
+  if (cell._actionCost[action] > cell.energy) return handleCellDecision(cell, data);
   else if (action === 'duplicate') {
     let neighboors = checkNeighbours(cell.x, cell.y, data);
-    if (neighboors.length === 0) return handleCellDecision(cell);
+    if (neighboors.length === 0) return handleCellDecision(cell, data);
     else {
       let i = Math.floor(Math.random() * (neighboors.length / 2))
-      born.push(neighboors[i], neighboors[i + 1], cell.duplicate());
+      born.push(neighboors[i], neighboors[i + 1], ...cell.duplicate());
     }
   } else if (action === 'eat') {
-    let coordinates = cell._isFacingTo();
-    if (data[coordinates[0]][coordinates[1]] === 0) return handleCellDecision(cell);
+    let coordinates = cell._isFacingTo(data.length - 1, data[0].length - 1);
+    if (data[coordinates[0]][coordinates[1]] === 0) return handleCellDecision(cell, data);
     else {
       died.push(...coordinates);
       cell.eat();
     }
   }
+  else cell[action]();
 }
 
 

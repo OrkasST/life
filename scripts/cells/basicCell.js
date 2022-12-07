@@ -25,7 +25,7 @@ export class Cell {
         green = green < 0 ? "00" : green;
         green = green.length === 1 ? "0" + green : green;
 
-        this.color = "#" + red + green + '00';
+        this.color = "#" + red + green + this.color.substring(5);
         return "photosynthesis";
     }
 
@@ -50,9 +50,10 @@ export class Cell {
         let dna = { ...this.dna };
         this.life.forEach(el => dna[el]++);
         for (let i in this.dna) {
-            if (this.dna.hasOwnProperty(i) && this.life.indexOf(i) < 0) dna[i] -= 0.1;
+            if (this.dna.hasOwnProperty(i) && this.life.indexOf(i) < 0) dna[i] -= 0.2;
         }
-        return dna;
+        dna[this.actions[Math.floor(Math.random() * this.actions.length)]] += Math.random() * 10 - 5; // random mutation
+        return [dna, this.color];
     }
 
     eat() {
@@ -65,13 +66,17 @@ export class Cell {
         green = green < 0 ? "00" : green;
         green = green.length === 1 ? "0" + green : green;
 
-        this.color = "#" + red + green + '00';
-        return this._isFacingTo();
+        this.color = "#" + red + green + this.color.substring(5);
+        return "eat";
     }
 
-    _isFacingTo() {
+    _isFacingTo(width, height) {
         let indx = this.direction * 2;
-        return [this._facingIndexes[indx], this._facingIndexes[indx + 1]]
+        let x = this.x + this._facingIndexes[indx];
+        let y = this.y + this._facingIndexes[indx + 1];
+        x = x < 0 ? 0 : x > width ? width : x;
+        y = y < 0 ? 0 : y > height ? height : y;
+        return [x, y];
     }
 
     decide() {

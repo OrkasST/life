@@ -8,7 +8,7 @@ let started = false;
 export function animate(data, time, ctx, screen, size) {
   if (!started) { data = initiate(data); started = true }
   // console.log(data);
-  data = update(data, time, frameRate);
+  data = update(data, frameRate);
   render(time, ctx, data, screen.width, screen.height, size);
   requestAnimationFrame((time) => animate(data, time, ctx, screen, size));
 }

@@ -1,4 +1,5 @@
 // import { animate, drawOnScreen } from "./scripts/mainCanvasFunctions.js";
+import { Cell } from "./scripts/cells/basicCell.js";
 import { animate } from "./scripts/forAnimatedProgect/animate.js";
 import { initiate } from "./scripts/forAnimatedProgect/initiate.js";
 import { drawOnScreen } from "./scripts/forNonAnimatedProjects/draw.js";
@@ -21,13 +22,10 @@ let size = 5;
 let startData = initiate([], screen, size);
 console.log('startData: ', startData);
 
+const cell = new Cell({});
+
 
 screen.addEventListener('click', (e) => {
-  // console.group("~~~~Coordinates~~~~")
-  // console.log(e.offsetX);
-  // console.log(e.offsetY);
-  // console.groupEnd();
-
   let x = Math.floor(e.offsetX / size);
   let y = Math.floor(e.offsetY / size);
 
@@ -35,5 +33,8 @@ screen.addEventListener('click', (e) => {
   startData[x][y] = 1;
 })
 
-start.onclick = () => animate(startData, 0, ctx, screen, size);
+start.onclick = () => {
+  console.log("started");
+  animate(startData, 0, ctx, screen, size)
+}
 // animate([], 0, ctx, screen, size);

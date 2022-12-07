@@ -11,8 +11,8 @@ const ctx = screen.getContext("2d");
 const start = document.getElementById("start");
 
 //setting width & height
-const width = 400,
-  height = 400;
+const width = 1800,
+  height = 900;
 screen.width = width;
 screen.height = height;
 

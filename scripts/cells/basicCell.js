@@ -1,5 +1,5 @@
 export class Cell {
-    constructor({ x = 0, y = 0, energy = 1, dna = { photosynthesis: 1, rotateRight: 1, rotateLeft: 1, duplicate: 1, eat: 1 }, direction = 1, color = '#0000FF' }) {
+    constructor({ x = 0, y = 0, energy = 1, dna = { photosynthesis: 1, rotateRight: 1, rotateLeft: 1, duplicate: 1, eat: 1 }, direction = 1, color = '#000000' }) {
         this.x = x;
         this.y = y;
         this.energy = energy;
@@ -18,14 +18,14 @@ export class Cell {
     photosynthesis() {
         this.energy += 1;
         this.life.push('photosynthesis');
-        let red = Math.round((parseInt(this.color.substring(1, 3), 16) - 2)).toString(16).toUpperCase()
-        red = red < 0 ? "00" : red;
-        red = red.length === 1 ? "0" + red : red;
-        let green = Math.round((parseInt(this.color.substring(2, 4), 16) + 2)).toString(16).toUpperCase();
+        // let red = Math.round((parseInt(this.color.substring(1, 3), 16) - 0)).toString(16).toUpperCase()
+        // red = red < 0 ? "00" : red;
+        // red = red.length === 1 ? "0" + red : red;
+        let green = Math.round((parseInt(this.color.substring(2, 4), 16) + 3)).toString(16).toUpperCase();
         green = green < 0 ? "00" : green;
         green = green.length === 1 ? "0" + green : green;
 
-        this.color = "#" + red + green + this.color.substring(5);
+        this.color = this.color.substring(0, 3) + green + this.color.substring(5);
         return "photosynthesis";
     }
 
@@ -34,6 +34,13 @@ export class Cell {
         this.direction += 1;
         this.direction = this.direction > 7 ? 0 : this.direction;
         this.life.push('rotateRight');
+
+        let blue = Math.round((parseInt(this.color.substring(5), 16) + 3)).toString(16).toUpperCase();
+        blue = blue < 0 ? "00" : blue;
+        blue = blue.length === 1 ? "0" + blue : blue;
+
+        this.color = this.color.substring(0, 5) + blue;
+
         return "rotateRight";
     }
     rotateLeft() {
@@ -41,6 +48,13 @@ export class Cell {
         this.direction -= 1;
         this.direction = this.direction < 0 ? 0 : this.direction;
         this.life.push('rotateLeft');
+
+        let blue = Math.round((parseInt(this.color.substring(5), 16) + 3)).toString(16).toUpperCase();
+        blue = blue < 0 ? "00" : blue;
+        blue = blue.length === 1 ? "0" + blue : blue;
+
+        this.color = this.color.substring(0, 5) + blue;
+
         return "rotateLeft";
     }
 
@@ -59,14 +73,14 @@ export class Cell {
     eat() {
         this.energy += 3;
         this.life.push('eat');
-        let red = Math.round((parseInt(this.color.substring(1, 3), 16) + 2)).toString(16).toUpperCase()
+        let red = Math.round((parseInt(this.color.substring(1, 3), 16) + 3)).toString(16).toUpperCase()
         red = red < 0 ? "00" : red;
         red = red.length === 1 ? "0" + red : red;
-        let green = Math.round((parseInt(this.color.substring(2, 4), 16) - 2)).toString(16).toUpperCase();
-        green = green < 0 ? "00" : green;
-        green = green.length === 1 ? "0" + green : green;
+        // let green = Math.round((parseInt(this.color.substring(2, 4), 16) - 0)).toString(16).toUpperCase();
+        // green = green < 0 ? "00" : green;
+        // green = green.length === 1 ? "0" + green : green;
 
-        this.color = "#" + red + green + this.color.substring(5);
+        this.color = "#" + red + this.color.substring(3);
         return "eat";
     }
 
@@ -94,6 +108,7 @@ export class Cell {
     }
 
 }
+
 
 /*
 

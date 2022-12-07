@@ -26,6 +26,7 @@ export function update(data = null, timesLeft = 0) {
     for (let y = 0; y < data[x].length; y++) {
       if (data[x][y] !== 0) {
         handleCellDecision(data[x][y], data);
+        if (data[x][y].energy <= 0) died.push(x, y);
       }
     }
   }

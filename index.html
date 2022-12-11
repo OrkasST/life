@@ -33,6 +33,7 @@
             border: 1px solid #000;
             margin: 10%;
             overflow-y: auto;
+            padding-left: 0.5rem;
         }
 
         #log #life {
@@ -41,10 +42,20 @@
             border: 1px solid #000;
             margin: 10%;
             overflow-y: auto;
+            padding-left: 0.5rem;
+
         }
 
-        #log #energy {
+        .firstInfo {
+            display: flex;
+            flex-direction: row;
             margin: 10%;
+            justify-content: space-between;
+        }
+
+        #log span {
+            color: blue;
+            margin-left: 0.6rem;
         }
 
         @media (max-width: 890px) {
@@ -71,7 +82,10 @@
 
     <div id="log">
         <div id="color"></div>
-        <div id="energy">Energy:</div>
+        <div class="firstInfo">
+            <div id="energy">Energy:</div>
+            <div id="duration">Life duration:</div>
+        </div>
         <div id="dna">DNA:</div>
         <div id="life">Life:</div>
     </div>

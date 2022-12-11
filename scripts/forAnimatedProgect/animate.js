@@ -1,16 +1,22 @@
 import { Cell } from "../cells/basicCell.js";
+import { handleUserEvents } from "./handleUserEvents.js";
 import { render } from "./render.js";
 import { update } from "./update.js";
 
-let frameRate = 0;
+let frameRate = 10;
 let started = false;
+let animationId;
+let answer = '';
 
 export function animate(data, time, ctx, screen, size) {
   if (!started) { data = initiate(data); started = true }
-  // console.log(data);
+  animationId = requestAnimationFrame((time) => animate(data, time, ctx, screen, size));
+
+  if (animationId) answer = handleUserEvents(data);
+  if (answer === "stop") cancel(animationId);
+
   data = update(data, frameRate);
   render(time, ctx, data, screen.width, screen.height, size);
-  requestAnimationFrame((time) => animate(data, time, ctx, screen, size));
 }
 
 function initiate(data) {
@@ -20,4 +26,8 @@ function initiate(data) {
     }
   }
   return data;
+}
+
+function cancel(id) {
+  cancelAnimationFrame(id);
 }

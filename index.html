@@ -43,6 +43,10 @@
             overflow-y: auto;
         }
 
+        #log #energy {
+            margin: 10%;
+        }
+
         @media (max-width: 890px) {
             #log {
                 position: absolute;
@@ -58,12 +62,18 @@
 
 <body>
     <canvas id="screen"></canvas>
-    <button id="start">start</button>
+    <div>
+        <button id="start" disabled>Start</button>
+        <button id="fill">Fill</button>
+        <span>Step: <span id="step">0</span></span>
+        <button id="stop" disabled>Stop</button>
+    </div>
 
     <div id="log">
         <div id="color"></div>
-        <div id="dna"></div>
-        <div id="life"></div>
+        <div id="energy">Energy:</div>
+        <div id="dna">DNA:</div>
+        <div id="life">Life:</div>
     </div>
 
     <script src="./main.js" type="module"></script>

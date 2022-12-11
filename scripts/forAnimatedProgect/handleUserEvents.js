@@ -4,6 +4,7 @@ const logColor = document.getElementById("color");
 const logDna = document.getElementById("dna");
 const logLife = document.getElementById("life");
 const logEnergy = document.getElementById("energy");
+const logDuration = document.getElementById("duration");
 
 let lastData = [];
 let stop = false;
@@ -21,20 +22,21 @@ export function handleUserEvents(data) {
 function visualiseInfo(cell) {
     if (cell === 0) return;
     logColor.style.backgroundColor = cell.color;
-    logEnergy.innerText = `Energy: ${cell.energy}`
-    logDna.innerText = `  DNA:
-  
-    photosynthesis: ${cell.dna.photosynthesis}
-    rotateRight: ${cell.dna.rotateRight}
-    duplicate: ${cell.dna.duplicate}
-    eat: ${cell.dna.eat}
+    logEnergy.innerHTML = `Energy: <span>${cell.energy}</span>`
+    logDuration.innerHTML = `Life duration: <span>${cell.life.duration}</span>`
+    logDna.innerHTML = `  DNA:
+  <br>
+    photosynthesis: <span>${cell.dna.photosynthesis}</span><br>
+    rotateRight: <span>${cell.dna.rotateRight}</span><br>
+    duplicate: <span>${cell.dna.duplicate}</span><br>
+    eat: <span>${cell.dna.eat}</span>
     `
-    logLife.innerText = ` Life: 
-  
-    photosynthesis: ${cell.life.photosynthesis}
-    rotateRight: ${cell.life.rotateRight}
-    duplicate: ${cell.life.duplicate}
-    eat: ${cell.life.eat}
+    logLife.innerHTML = ` Life: 
+    <br>
+    photosynthesis: <span>${cell.life.photosynthesis}</span><br>
+    rotateRight: <span>${cell.life.rotateRight}</span><br>
+    duplicate: <span>${cell.life.duplicate}</span><br>
+    eat: <span>${cell.life.eat}</span><br>
     `
 }
 

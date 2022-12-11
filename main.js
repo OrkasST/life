@@ -52,6 +52,8 @@ screen.addEventListener('click', (e) => {
     startData[x + 1][y + 1] = 1;
     startData[x + 1][y] = 1;
 
+    //switch buttons
+    start.disabled = false;
   }
 })
 
@@ -66,6 +68,7 @@ start.onclick = () => {
   //switch buttons
   start.disabled = true;
   stop.disabled = false;
+  fill.disabled = true;
 
   animate(startData, 0, ctx, screen, size)
 }

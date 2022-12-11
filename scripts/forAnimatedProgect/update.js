@@ -50,23 +50,28 @@ function checkNeighbours(x, y, data) {
 
 function handleCellDecision(cell, data, limit = 6) {
   let action = cell.decide();
-  if (cell._actionCost[action] > cell.energy) return limit > 0 ? handleCellDecision(cell, data, limit - 1) : null;
+  if (cell._actionCost[action] > cell.energy) return limit > 0 ? handleCellDecision(cell, data, limit - 1) : cell.life.duration++;
   else if (action === 'duplicate') {
     let neighboors = checkNeighbours(cell.x, cell.y, data);
-    if (neighboors.length === 0) return limit > 0 ? handleCellDecision(cell, data, limit - 1) : null;
+    if (neighboors.length === 0) return limit > 0 ? handleCellDecision(cell, data, limit - 1) : cell.life.duration++;
     else {
       let i = Math.floor(Math.random() * (neighboors.length / 2)) * 2;
       born.push(neighboors[i], neighboors[i + 1], ...cell.duplicate());
+      cell.life.duration++;
     }
   } else if (action === 'eat') {
     let coordinates = cell._isFacingTo(data.length - 1, data[0].length - 1);
-    if (data[coordinates[0]][coordinates[1]] === 0) return limit > 0 ? handleCellDecision(cell, data, limit - 1) : null;
+    if (data[coordinates[0]][coordinates[1]] === 0) return limit > 0 ? handleCellDecision(cell, data, limit - 1) : cell.life.duration++;
     else {
       died.push(...coordinates);
       cell.eat();
+      cell.life.duration++;
     }
   }
-  else cell[action]();
+  else {
+    cell.life.duration++;
+    cell[action]()
+  };
 }
 
 

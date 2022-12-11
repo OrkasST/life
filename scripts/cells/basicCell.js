@@ -9,6 +9,7 @@ export class Cell {
         this.childColor = color;
 
         this.life = {
+            duration: 0,
             'photosynthesis': 0,
             'rotateRight': 0,
             'duplicate': 0,
@@ -75,7 +76,7 @@ export class Cell {
         // this.life.forEach(el => dna[el]++);
 
         for (let i in this.life) {
-            if (this.life.hasOwnProperty(i)) dna[i] += this.life[i] > 0 ? this.life[i] * 0.2 : -0.2;
+            if (this.life.hasOwnProperty(i) && dna.hasOwnProperty(i)) dna[i] += this.life[i] > 0 ? this.life[i] * 0.2 : -0.2;
         }
         dna[this.actions[Math.floor(Math.random() * this.actions.length)]] += Math.random() * 10 - 5; // random mutation
         return [dna, this.childColor];
@@ -107,11 +108,6 @@ export class Cell {
 
     decide() {
         if (this._isFirstDecision) {
-            // for (let i in this.dna) {
-            //     if (!this.dna.hasOwnProperty(i)) continue;
-            //     for (let j = 0; j < this.dna[i] * 10; j++) this._probability.push(this.actions.indexOf(i));
-            // }
-
             this.actions.forEach((el, i) => this._probability[i] = (this.dna[el] <= 0 ? 0 : this.dna[el]) * 10 + (this._probability[i - 1] || 0));
             this._isFirstDecision = false;
         }
@@ -122,15 +118,12 @@ export class Cell {
                 return this.actions[i];
             }
         }
-        // let action = this.actions[this._probability[indx]];
-        // return this.energy >= this._actionCost[action] ? this[action]() : null;
-        // return action;
     }
 
     updateColor(r, g, b) {
-        let red = Math.round(parseInt(this.color.substring(1, 3), 16) + r);
-        let green = Math.round(parseInt(this.color.substring(2, 4), 16) + g);
-        let blue = Math.round(parseInt(this.color.substring(5), 16) + b);
+        let red = Math.round(parseInt(this.childColor.substring(1, 3), 16) + r);
+        let green = Math.round(parseInt(this.childColor.substring(2, 4), 16) + g);
+        let blue = Math.round(parseInt(this.childColor.substring(5), 16) + b);
 
         red = this.checkColor(red).toString(16).toUpperCase();
         green = this.checkColor(green).toString(16).toUpperCase();

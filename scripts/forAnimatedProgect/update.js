@@ -1,32 +1,12 @@
-// export function update(data = null, time = 0) {
-//   let born = [];
-//   let died = [];
-//   for (let x = 0; x < data.length; x++) {
-//     for (let y = 0; y < data[x].length; y++) {
-//       let neighbours = checkNeighboursCount(x, y, data);
-//       if (data[x][y] === 0 && neighbours === 3) born.push(x, y);
-//       if (data[x][y] === 1 && (neighbours === 2 || neighbours === 3)) null;
-//       else if (data[x][y] === 1) died.push(x, y);
-//     }
-//   }
-//   for (let i = 0; i < born.length; i += 2) data[born[i]][born[i + 1]] = 1;
-//   for (let i = 0; i < died.length; i += 2) data[died[i]][died[i + 1]] = 0;
-//   return data;
-// }
-
 import { Cell } from "../cells/basicCell.js";
 
-let cellX = 0, cellY = 0, log = false;
-const logWindow = document.getElementById("log");
-const logColor = document.getElementById("color");
-const logDna = document.getElementById("dna");
-const logLife = document.getElementById("life");
+const logStep = document.getElementById("step");
+let step = 0;
 
 let born = [];
 let died = [];
 
 export function update(data = null, timesLeft = 0) {
-  if (log) { console.log(data[cellX][cellY]); visualiseInfo(data[cellX][cellY]); log = false }
   born = [];
   died = [];
   for (let x = 0; x < data.length; x++) {
@@ -40,6 +20,7 @@ export function update(data = null, timesLeft = 0) {
   }
   for (let i = 0; i < died.length; i += 2) data[died[i]][died[i + 1]] = 0;
   for (let i = 0; i < born.length; i += 4) data[born[i]][born[i + 1]] = new Cell({ x: born[i], y: born[i + 1], dna: born[i + 2], color: born[i + 3] });
+  logStep.innerText = ++step;
   if (timesLeft > 0) update(data, timesLeft - 1);
   return data;
 }
@@ -88,24 +69,7 @@ function handleCellDecision(cell, data, limit = 6) {
   else cell[action]();
 }
 
-function visualiseInfo(cell) {
-  if (cell === 0) return;
-  logColor.style.backgroundColor = cell.color;
-  logDna.innerText = `
-  photosynthesis: ${cell.dna.photosynthesis}
-  rotateRight: ${cell.dna.rotateRight}
-  rotateLeft: ${cell.dna.rotateLeft}
-  duplicate: ${cell.dna.duplicate}
-  eat: ${cell.dna.eat}
-  `
-}
 
-
-export function displayCellInfo(x, y) {
-  log = true;
-  cellX = x;
-  cellY = y;
-}
 
 
 // function checkNeighboursCount(x, y, data) {

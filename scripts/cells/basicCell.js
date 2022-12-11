@@ -72,14 +72,14 @@ export class Cell {
         // this.life.forEach(el => dna[el]++);
 
         for (let i in this.life) {
-            if (this.life.hasOwnProperty(i)) dna[i] += this.life[i] > 0 ? this.life[i] : -0.2;
+            if (this.life.hasOwnProperty(i)) dna[i] += this.life[i] > 0 ? this.life[i] * 0.2 : -0.2;
         }
         dna[this.actions[Math.floor(Math.random() * this.actions.length)]] += Math.random() * 10 - 5; // random mutation
         return [dna, this.childColor];
     }
 
     eat() {
-        this.energy += 3;
+        this.energy += 4;
         this.life.eat++;
         let red = Math.round((parseInt(this.color.substring(1, 3), 16) + 3)).toString(16).toUpperCase()
         red = red < 0 ? "00" : red;

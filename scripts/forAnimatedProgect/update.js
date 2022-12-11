@@ -16,15 +16,23 @@
 
 import { Cell } from "../cells/basicCell.js";
 
+let cellX = 0, cellY = 0, log = false;
+const logWindow = document.getElementById("log");
+const logColor = document.getElementById("color");
+const logDna = document.getElementById("dna");
+const logLife = document.getElementById("life");
+
 let born = [];
 let died = [];
 
 export function update(data = null, timesLeft = 0) {
+  if (log) { console.log(data[cellX][cellY]); visualiseInfo(data[cellX][cellY]); log = false }
   born = [];
   died = [];
   for (let x = 0; x < data.length; x++) {
     for (let y = 0; y < data[x].length; y++) {
       if (data[x][y] !== 0) {
+        if (!data[x][y]) debugger;
         handleCellDecision(data[x][y], data);
         if (data[x][y].energy <= 0) died.push(x, y);
       }
@@ -59,25 +67,44 @@ function checkNeighbours(x, y, data) {
   return neighbours;
 }
 
-function handleCellDecision(cell, data) {
+function handleCellDecision(cell, data, limit = 6) {
   let action = cell.decide();
-  if (cell._actionCost[action] > cell.energy) return handleCellDecision(cell, data);
+  if (cell._actionCost[action] > cell.energy) return limit > 0 ? handleCellDecision(cell, data, limit - 1) : null;
   else if (action === 'duplicate') {
     let neighboors = checkNeighbours(cell.x, cell.y, data);
-    if (neighboors.length === 0) return handleCellDecision(cell, data);
+    if (neighboors.length === 0) return limit > 0 ? handleCellDecision(cell, data, limit - 1) : null;
     else {
-      let i = Math.floor(Math.random() * (neighboors.length / 2))
+      let i = Math.floor(Math.random() * (neighboors.length / 2)) * 2;
       born.push(neighboors[i], neighboors[i + 1], ...cell.duplicate());
     }
   } else if (action === 'eat') {
     let coordinates = cell._isFacingTo(data.length - 1, data[0].length - 1);
-    if (data[coordinates[0]][coordinates[1]] === 0) return handleCellDecision(cell, data);
+    if (data[coordinates[0]][coordinates[1]] === 0) return limit > 0 ? handleCellDecision(cell, data, limit - 1) : null;
     else {
       died.push(...coordinates);
       cell.eat();
     }
   }
   else cell[action]();
+}
+
+function visualiseInfo(cell) {
+  if (cell === 0) return;
+  logColor.style.backgroundColor = cell.color;
+  logDna.innerText = `
+  photosynthesis: ${cell.dna.photosynthesis}
+  rotateRight: ${cell.dna.rotateRight}
+  rotateLeft: ${cell.dna.rotateLeft}
+  duplicate: ${cell.dna.duplicate}
+  eat: ${cell.dna.eat}
+  `
+}
+
+
+export function displayCellInfo(x, y) {
+  log = true;
+  cellX = x;
+  cellY = y;
 }
 
 

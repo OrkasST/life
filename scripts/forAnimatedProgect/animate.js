@@ -2,7 +2,7 @@ import { Cell } from "../cells/basicCell.js";
 import { render } from "./render.js";
 import { update } from "./update.js";
 
-let frameRate = 2;
+let frameRate = 0;
 let started = false;
 
 export function animate(data, time, ctx, screen, size) {

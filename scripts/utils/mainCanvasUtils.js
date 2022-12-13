@@ -9,6 +9,7 @@ export function drawRect(
 ) {
   ctx.beginPath();
   ctx.fillStyle = color;
+  ctx.strokeStyle = color;
   filled ? ctx.fillRect(x, y, w, h) : ctx.strokeRect(x, y, w, h);
   ctx.closePath();
 }

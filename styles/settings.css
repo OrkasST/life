@@ -1,0 +1,12 @@
+.settings{
+    border: 1px solid #000;
+    margin-top: 2rem;
+    width: 20rem;
+    height: 20rem;
+    padding: 1rem;
+}
+
+.settings #framerate {
+    width: 2rem;
+    margin-left: 2rem;;
+}

@@ -1,3 +1,6 @@
+import { getContext, getScreenData, getSize } from "../../main.js";
+import { highlight, render } from "./render.js";
+
 let cellX = 0, cellY = 0, log = false;
 const logWindow = document.getElementById("log");
 const logColor = document.getElementById("color");
@@ -5,13 +8,19 @@ const logDna = document.getElementById("dna");
 const logLife = document.getElementById("life");
 const logEnergy = document.getElementById("energy");
 const logDuration = document.getElementById("duration");
+const logStringColor = document.getElementById("stringColor");
 
 let lastData = [];
 let stop = false;
 let stopped = false;
 
 export function handleUserEvents(data) {
-    if (log) { console.log(data[cellX][cellY]); visualiseInfo(data[cellX][cellY]); log = false }
+    if (log) {
+        console.log(data[cellX][cellY]);
+        visualiseInfo(data[cellX][cellY]);
+        highlight(cellX, cellY);
+        log = false;
+    }
     if (stop) {
         lastData = data;
         stop = false;
@@ -22,6 +31,7 @@ export function handleUserEvents(data) {
 function visualiseInfo(cell) {
     if (cell === 0) return;
     logColor.style.backgroundColor = cell.color;
+    logStringColor.innerText = cell.color;
     logEnergy.innerHTML = `Energy: <span>${cell.energy}</span>`
     logDuration.innerHTML = `Life duration: <span>${cell.life.duration}</span>`
     logDna.innerHTML = `  DNA:
@@ -45,7 +55,12 @@ export function displayCellInfo(x, y) {
     log = true;
     cellX = x;
     cellY = y;
-    if (stopped) visualiseInfo(lastData[cellX][cellY]);
+    if (stopped) {
+        let screen = getScreenData();
+        visualiseInfo(lastData[cellX][cellY]);
+        highlight(cellX, cellY);
+        render(0, getContext(), lastData, screen.width, screen.height, getSize());
+    };
 }
 
 export function stopSimulation() {
@@ -54,4 +69,8 @@ export function stopSimulation() {
 }
 export function getData() {
     return lastData;
+}
+
+export function resume() {
+    stopped = false;
 }

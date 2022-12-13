@@ -1,7 +1,7 @@
 // import { animate, drawOnScreen } from "./scripts/mainCanvasFunctions.js";
 import { Cell } from "./scripts/cells/basicCell.js";
 import { animate } from "./scripts/forAnimatedProgect/animate.js";
-import { displayCellInfo, getData, stopSimulation } from "./scripts/forAnimatedProgect/handleUserEvents.js";
+import { displayCellInfo, getData, resume, stopSimulation } from "./scripts/forAnimatedProgect/handleUserEvents.js";
 import { initiate } from "./scripts/forAnimatedProgect/initiate.js";
 import { drawOnScreen } from "./scripts/forNonAnimatedProjects/draw.js";
 import { drawRect } from "./scripts/utils/mainCanvasUtils.js";
@@ -64,6 +64,7 @@ start.onclick = () => {
   console.log("started");
   started = true;
   stopped = false;
+  resume();
 
   //switch buttons
   start.disabled = true;
@@ -97,6 +98,18 @@ stop.onclick = () => {
   //switch buttons
   stop.disabled = true;
   start.disabled = false;
+}
+
+export function getScreenData() {
+  return screen;
+}
+
+export function getContext() {
+  return ctx;
+}
+
+export function getSize() {
+  return size;
 }
 
 // TEMPORARY

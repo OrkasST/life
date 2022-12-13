@@ -6,82 +6,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Empty-canvas</title>
-    <style>
-        canvas {
-            border: 1px #000 solid;
-        }
-
-        #log {
-            position: absolute;
-            width: 30rem;
-            height: 40rem;
-            border: 1px solid #000;
-            top: 2rem;
-            left: 400px;
-        }
-
-        #log #color {
-            width: 4rem;
-            height: 4rem;
-            border: 1px solid #000;
-            margin: 1rem;
-        }
-
-        #log #dna {
-            width: 80%;
-            height: 10rem;
-            border: 1px solid #000;
-            margin: 10%;
-            overflow-y: auto;
-            padding-left: 0.5rem;
-        }
-
-        #log #life {
-            width: 80%;
-            height: 10rem;
-            border: 1px solid #000;
-            margin: 10%;
-            overflow-y: auto;
-            padding-left: 0.5rem;
-
-        }
-
-        .firstInfo {
-            display: flex;
-            flex-direction: row;
-            margin: 10%;
-            justify-content: space-between;
-        }
-
-        #log span {
-            color: blue;
-            margin-left: 0.6rem;
-        }
-
-        @media (max-width: 890px) {
-            #log {
-                position: absolute;
-                width: 30rem;
-                height: 40rem;
-                border: 1px solid #000;
-                top: 400px;
-                left: 1rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/settings.css">
 </head>
 
 <body>
+    <!-- SCREEN -->
     <canvas id="screen"></canvas>
+    <!-- SCREEN -->
+
+    <!-- MAIN BUTTONS -->
     <div>
         <button id="start" disabled>Start</button>
         <button id="fill">Fill</button>
         <span>Step: <span id="step">0</span></span>
         <button id="stop" disabled>Stop</button>
     </div>
+    <!-- MAIN BUTTONS -->
 
+    <!-- SETTINGS -->
+    <div class="settings">
+        <label for="frames">Framerate</label>
+        <input type="text" name="frames" id="framerate">
+    </div>
+    <!-- SETTINGS -->
+
+
+
+    <!-- LOGS -->
     <div id="log">
-        <div id="color"></div>
+        <div class="colorLog">
+            <div id="color"></div>
+            <span id="stringColor"></span>
+        </div>
         <div class="firstInfo">
             <div id="energy">Energy:</div>
             <div id="duration">Life duration:</div>
@@ -89,6 +46,7 @@
         <div id="dna">DNA:</div>
         <div id="life">Life:</div>
     </div>
+    <!-- LOGS -->
 
     <script src="./main.js" type="module"></script>
 </body>
